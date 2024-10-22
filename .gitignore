@@ -1,18 +1,35 @@
-# Build and Release Folders
-bin-debug/
-bin-release/
-[Oo]bj/
-[Bb]in/
+import hashlib
 
-# Other files and folders
-.settings/
+# Function to hash a password using SHA-256
+def hash_password(password):
+    return hashlib.sha256(password.encode()).hexdigest()
 
-# Executables
-*.swf
-*.air
-*.ipa
-*.apk
+# Function to check if a password matches the hashed version
+def check_password(password, hashed_password):
+    return hash_password(password) == hashed_password
 
-# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
-# should NOT be excluded as they contain compiler settings and other important
-# information for Eclipse / Flash Builder.
+# Set up the two keys
+key1 = "first_secret_key"
+key2 = "second_secret_key"
+
+# Hash the keys
+hashed_key1 = hash_password(key1)
+hashed_key2 = hash_password(key2)
+
+# Prompt the user for the first key
+entered_key1 = input("Enter the first key: ")
+
+# Check if the entered first key matches the hashed version
+if check_password(entered_key1, hashed_key1):
+    print("First key accepted.")
+    
+    # Prompt the user for the second key
+    entered_key2 = input("Enter the second key: ")
+    
+    # Check if the entered second key matches the hashed version
+    if check_password(entered_key2, hashed_key2):
+        print("Second key accepted. Access granted.")
+    else:
+        print("Second key incorrect. Access denied.")
+else:
+    print("First key incorrect. Access denied.")
